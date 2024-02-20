@@ -15,6 +15,7 @@ public class BookService {
     public BookService() {
         fillStorage();
     }
+
     public void fillStorage() {
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
@@ -29,6 +30,7 @@ public class BookService {
     public List<BookEntity> all() {
         return bookStorage;
     }
+
     public Optional<BookEntity> byId(Integer id) {
         return bookStorage.stream().filter((book -> book.getId().equals(id))).findFirst();
     }
@@ -47,5 +49,14 @@ public class BookService {
         oldBook.setTitle(book.getTitle());
         oldBook.setDescription(book.getDescription());
         return Optional.of(oldBook);
+    }
+
+    public Boolean delete(Integer id) {
+        Optional<BookEntity> book = byId(id);
+        if (book.isEmpty()) {
+            return false;
+        }
+        bookStorage.remove(book.get());
+        return true;
     }
 }
