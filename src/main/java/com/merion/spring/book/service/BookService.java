@@ -45,7 +45,14 @@ public class BookService {
     }
 
     public Optional<BookEntity> edit(BookEntity book) {
-        BookEntity oldBook = byId(book.getId()).orElseThrow();
+        // PreFIX // BookEntity oldBook = byId(book.getId()).orElseThrow();
+        // Add by FIX
+        Optional<BookEntity> oldBookOptional = byId(book.getId());
+        if (oldBookOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        BookEntity oldBook = oldBookOptional.get(); // Add by FIX
         oldBook.setTitle(book.getTitle());
         oldBook.setDescription(book.getDescription());
         return Optional.of(oldBook);
